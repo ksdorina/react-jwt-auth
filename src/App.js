@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 
 import AuthService from "./services/auth.service";
 
@@ -12,9 +13,12 @@ import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
 import BoardModerator from "./components/board-moderator.component";
 import BoardAdmin from "./components/board-admin.component";
-
-// import AuthVerify from "./common/auth-verify";
-import EventBus from "./common/EventBus";
+import Proba from "./sajatosztalyok/Proba";
+import Elmenyek from "./sajatosztalyok/Elmenyek"
+import Belso from "./sajatosztalyok/Belso";
+import Adattorles from "./sajatosztalyok/Adattorles"
+import Szemelyesadat from "./sajatosztalyok/Szemelyes_adat"
+import Kedvelem from "./sajatosztalyok/Kedvelem"
 
 class App extends Component {
   constructor(props) {
@@ -38,23 +42,10 @@ class App extends Component {
         showAdminBoard: user.roles.includes("ROLE_ADMIN"),
       });
     }
-    
-    EventBus.on("logout", () => {
-      this.logOut();
-    });
-  }
-
-  componentWillUnmount() {
-    EventBus.remove("logout");
   }
 
   logOut() {
     AuthService.logout();
-    this.setState({
-      showModeratorBoard: false,
-      showAdminBoard: false,
-      currentUser: undefined,
-    });
   }
 
   render() {
@@ -62,71 +53,62 @@ class App extends Component {
 
     return (
       <div>
-        <nav className="navbar navbar-expand navbar-dark bg-dark">
-          <Link to={"/"} className="navbar-brand">
-            bezKoder
-          </Link>
-          <div className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <Link to={"/home"} className="nav-link">
-                Home
-              </Link>
-            </li>
 
-            {showModeratorBoard && (
-              <li className="nav-item">
-                <Link to={"/mod"} className="nav-link">
-                  Moderator Board
-                </Link>
-              </li>
-            )}
-
-            {showAdminBoard && (
-              <li className="nav-item">
-                <Link to={"/admin"} className="nav-link">
-                  Admin Board
-                </Link>
-              </li>
-            )}
-
-            {currentUser && (
-              <li className="nav-item">
-                <Link to={"/user"} className="nav-link">
-                  User
-                </Link>
-              </li>
-            )}
-          </div>
-
-          {currentUser ? (
-            <div className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link to={"/profile"} className="nav-link">
-                  {currentUser.username}
-                </Link>
-              </li>
-              <li className="nav-item">
-                <a href="/login" className="nav-link" onClick={this.logOut}>
-                  LogOut
-                </a>
-              </li>
-            </div>
-          ) : (
-            <div className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link to={"/login"} className="nav-link">
-                  Login
-                </Link>
-              </li>
-
-              <li className="nav-item">
-                <Link to={"/register"} className="nav-link">
-                  Sign Up
-                </Link>
-              </li>
-            </div>
+<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <Navbar.Brand href="#home">
+        ÉN könyv
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="mr-auto">
+          <Nav.Link href="Elmenyek">Élmények</Nav.Link>
+          <Nav.Link href="Szemelyesadat">Személyes adatok</Nav.Link>
+          <Nav.Link href="Kedvelem">Kedvelem</Nav.Link>
+          <Nav.Link href="Belso">Belső tulajdonságaim</Nav.Link>
+          {showAdminBoard && (
+          <NavDropdown title="Admin lap" id="collasible-nav-dropdown">
+            <NavDropdown.Item href="Adattorles">Élménytörlés</NavDropdown.Item>
+            <NavDropdown.Item href="#action/3.2">
+              Felhasználók
+            </NavDropdown.Item>
+            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item href="#action/3.4">
+              Separated link
+            </NavDropdown.Item>
+          </NavDropdown>
           )}
-        </nav>
+        </Nav>
+        
+        {currentUser ? (
+        
+        <Nav>
+          <Nav.Link href="/profile">
+            {currentUser.username}
+          </Nav.Link>
+
+          <Nav.Link eventKey={2} href="/login" onClick={this.logOut}>
+            Kijelentkezés
+          </Nav.Link>
+        </Nav>
+          ) : (
+            <Nav>
+            <Nav.Link href="/login">
+              Bejelentkezés
+            </Nav.Link>
+  
+            <Nav.Link eventKey={2} href="/register">
+              Regisztráció
+            </Nav.Link>
+          </Nav>
+        )}
+
+      </Navbar.Collapse>
+    </Navbar>
+
+
+        {/*..................................régi................................*/}
+     
 
         <div className="container mt-3">
           <Switch>
@@ -137,10 +119,17 @@ class App extends Component {
             <Route path="/user" component={BoardUser} />
             <Route path="/mod" component={BoardModerator} />
             <Route path="/admin" component={BoardAdmin} />
+            <Route path="/Proba" component={Proba} />
+            <Route path="/Elmenyek" component={Elmenyek} />
+            <Route path="/Adattorles" component={Adattorles} />
+            <Route path="/Elmenyek" component={Elmenyek} />
+            <Route path="/Szemelyesadat" component={Szemelyesadat} />
+            <Route path="/Kedvelem" component={Kedvelem} />
+            <Route path="/Belso" component={Belso} />
+
+
           </Switch>
         </div>
-
-        { /*<AuthVerify logOut={this.logOut}/> */ }
       </div>
     );
   }
