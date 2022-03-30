@@ -7,8 +7,12 @@ export default class Adattorles extends React.Component {
 
   constructor(props){
     super(props);
-    this.state ={ isLoading: true}
+    this.state ={ 
+        isLoading: true,
+        showAlert: false
+    }
   }
+
 
   torles=(szam)=>{
     //alert(szam)
@@ -16,7 +20,7 @@ export default class Adattorles extends React.Component {
       bevitel1:szam
     }
 
-  fetch("http://"+ipcim+":8080/torles", {
+  fetch("http://"+ipcim+":8080/torles_felh", {
       method: "POST",
       body: JSON.stringify(bemenet),
       headers: {"Content-type": "application/json; charset=UTF-8"}
@@ -30,7 +34,7 @@ export default class Adattorles extends React.Component {
 
 
   componentDidMount(){
-    return fetch('http://'+ipcim+':8080/mostani')
+    return fetch('http://'+ipcim+':8080/felhasznalok')
       .then((response) => response.json())
       .then((responseJson) => {
 
@@ -53,7 +57,7 @@ export default class Adattorles extends React.Component {
       bevitel1:this.state.eredmeny
     }
 
-    fetch('http://'+ipcim+':8080/kereses', {
+    fetch('http://'+ipcim+':8080/kereses_felh', {
      method: "POST",
      body: JSON.stringify(bemenet),
      headers: {"Content-type": "application/json; charset=UTF-8"}
@@ -66,14 +70,7 @@ export default class Adattorles extends React.Component {
          isLoading: false,
          dataSource: responseJson,
        }, function(){
-        var seged=this.state.dataSource
-        for( var item of seged)
-        {
-          var kecske=item.datum.split("T")
-          item.datum=kecske[0]
-        }
-        this.setState({dataSource:seged})
-
+        
        });
        //alert(JSON.stringify(this.state.dataSource))
 
@@ -87,6 +84,7 @@ export default class Adattorles extends React.Component {
 
   render(){
 
+    const { showAlert } = this.state;
     if(this.state.isLoading){
       return(
         <View style={{flex: 1, padding: 20}}>
@@ -102,7 +100,7 @@ export default class Adattorles extends React.Component {
         <TextInput
         placeholderTextColor="white"
         style={{width:300,color:"white",backgroundColor:"#ecb920",padding:10,borderRadius:10,textAlignVertical:"top"}}
-        placeholder="Élmény kereső"
+        placeholder="Felhasználó kereső"
         onChangeText={(eredmeny) => this.setState({eredmeny})}
         />
         
@@ -122,12 +120,17 @@ export default class Adattorles extends React.Component {
        <View style={{borderWidth:1,borderRadius:10,padding:10,width:330, marginLeft:13,paddingLeft:15,backgroundColor:"#055169", marginBottom:10}}>
      {/* Input field */}
 
-         <Text style={{fontSize:20,padding:3,color:"white",fontFamily:"italic"}}>{item.datum} </Text>
-         <Text style={{fontStyle:"italic",fontFamily:'italic',fontSize:15,padding:3,color:"white",height:50}}>{item.szoveg} </Text>
-         <Image  source={{uri: 'http://'+ipcim+':8080/'+item.kep_id}} style={{width:300,height:300}} /> 
+         <Text style={{fontSize:20,padding:3,color:"white",fontFamily:"italic"}}>{item.username} </Text>
+         <Text style={{fontStyle:"italic",fontFamily:'italic',fontSize:15,padding:3,color:"white",height:50}}>{item.email} </Text>
+         <TouchableOpacity
+        style={styles.kekgomb2}
+        onPress={async ()=>this.torles(item.id)}
+      >
+        <Text style={{color:"white",fontWeight:"bold",fontSize:15}}  >Adminjog adása</Text>
+      </TouchableOpacity>
          <TouchableOpacity
         style={styles.kekgomb}
-        onPress={async ()=>this.torles(item.elmeny_id)}
+        onPress={async ()=>this.torles(item.id)}
       >
         <Text style={{color:"white",fontWeight:"bold",fontSize:15}}  >Törlés</Text>
       </TouchableOpacity>
@@ -148,10 +151,20 @@ const styles = StyleSheet.create({
     backgroundColor: "#ecb920",
     padding: 10,
     width:300,
-    marginTop:10,
     marginLeft:"auto",
     marginRight:"auto",
-    borderRadius:10
+    borderRadius:10,
+  },
+
+  kekgomb2: {
+    alignItems: "center",
+    backgroundColor: "#ecb920",
+    padding: 10,
+    width:300,
+    marginLeft:"auto",
+    marginRight:"auto",
+    borderRadius:10,
+    marginBottom:10
   },
   
 

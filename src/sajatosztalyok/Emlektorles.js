@@ -16,7 +16,7 @@ export default class Adattorles extends React.Component {
       bevitel1:szam
     }
 
-  fetch("http://"+ipcim+":8080/torles", {
+  fetch("http://"+ipcim+":8080/torles_emlek", {
       method: "POST",
       body: JSON.stringify(bemenet),
       headers: {"Content-type": "application/json; charset=UTF-8"}
@@ -30,7 +30,7 @@ export default class Adattorles extends React.Component {
 
 
   componentDidMount(){
-    return fetch('http://'+ipcim+':8080/mostani')
+    return fetch('http://'+ipcim+':8080/emlek_lekerd')
       .then((response) => response.json())
       .then((responseJson) => {
 
@@ -53,7 +53,7 @@ export default class Adattorles extends React.Component {
       bevitel1:this.state.eredmeny
     }
 
-    fetch('http://'+ipcim+':8080/kereses', {
+    fetch('http://'+ipcim+':8080/kereses_emlek', {
      method: "POST",
      body: JSON.stringify(bemenet),
      headers: {"Content-type": "application/json; charset=UTF-8"}
@@ -102,7 +102,7 @@ export default class Adattorles extends React.Component {
         <TextInput
         placeholderTextColor="white"
         style={{width:300,color:"white",backgroundColor:"#ecb920",padding:10,borderRadius:10,textAlignVertical:"top"}}
-        placeholder="Élmény kereső"
+        placeholder="Emlék kereső"
         onChangeText={(eredmeny) => this.setState({eredmeny})}
         />
         
@@ -124,10 +124,10 @@ export default class Adattorles extends React.Component {
 
          <Text style={{fontSize:20,padding:3,color:"white",fontFamily:"italic"}}>{item.datum} </Text>
          <Text style={{fontStyle:"italic",fontFamily:'italic',fontSize:15,padding:3,color:"white",height:50}}>{item.szoveg} </Text>
-         <Image  source={{uri: 'http://'+ipcim+':8080/'+item.kep_id}} style={{width:300,height:300}} /> 
+         <Image  source={{uri: 'http://'+ipcim+':8080/'+item.kep+'.jpg'}} style={{width:300,height:300}} /> 
          <TouchableOpacity
         style={styles.kekgomb}
-        onPress={async ()=>this.torles(item.elmeny_id)}
+        onPress={async ()=>this.torles(item.gyerekkori_id)}
       >
         <Text style={{color:"white",fontWeight:"bold",fontSize:15}}  >Törlés</Text>
       </TouchableOpacity>

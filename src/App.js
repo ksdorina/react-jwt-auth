@@ -13,12 +13,9 @@ import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
 import BoardModerator from "./components/board-moderator.component";
 import BoardAdmin from "./components/board-admin.component";
-import Proba from "./sajatosztalyok/Proba";
-import Elmenyek from "./sajatosztalyok/Elmenyek"
-import Belso from "./sajatosztalyok/Belso";
 import Adattorles from "./sajatosztalyok/Adattorles"
-import Szemelyesadat from "./sajatosztalyok/Szemelyes_adat"
-import Kedvelem from "./sajatosztalyok/Kedvelem"
+import Felhasznalok from "./sajatosztalyok/Felhasznalok"
+import Emlektorles from "./sajatosztalyok/Emlektorles"
 
 class App extends Component {
   constructor(props) {
@@ -61,23 +58,9 @@ class App extends Component {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link href="Elmenyek">Élmények</Nav.Link>
-          <Nav.Link href="Szemelyesadat">Személyes adatok</Nav.Link>
-          <Nav.Link href="Kedvelem">Kedvelem</Nav.Link>
-          <Nav.Link href="Belso">Belső tulajdonságaim</Nav.Link>
-          {showAdminBoard && (
-          <NavDropdown title="Admin lap" id="collasible-nav-dropdown">
-            <NavDropdown.Item href="Adattorles">Élménytörlés</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.2">
-              Felhasználók
-            </NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="#action/3.4">
-              Separated link
-            </NavDropdown.Item>
-          </NavDropdown>
-          )}
+          <Nav.Link href="Adattorles">Élménytörlés</Nav.Link>
+          <Nav.Link href="Emlektorles">Emléktörlés</Nav.Link>
+          <Nav.Link href="Felhasznalok">Felhasználók</Nav.Link>
         </Nav>
         
         {currentUser ? (
@@ -119,13 +102,9 @@ class App extends Component {
             <Route path="/user" component={BoardUser} />
             <Route path="/mod" component={BoardModerator} />
             <Route path="/admin" component={BoardAdmin} />
-            <Route path="/Proba" component={Proba} />
-            <Route path="/Elmenyek" component={Elmenyek} />
             <Route path="/Adattorles" component={Adattorles} />
-            <Route path="/Elmenyek" component={Elmenyek} />
-            <Route path="/Szemelyesadat" component={Szemelyesadat} />
-            <Route path="/Kedvelem" component={Kedvelem} />
-            <Route path="/Belso" component={Belso} />
+            <Route path="/Felhasznalok" component={Felhasznalok} />
+            <Route path="/Emlektorles" component={Emlektorles} />
 
 
           </Switch>
