@@ -32,6 +32,24 @@ export default class Adattorles extends React.Component {
 
   }
 
+  jogadas=(szam2)=>{
+    //alert(szam)
+    var bemenet={
+      bevitel1:szam2
+    }
+
+  fetch("http://"+ipcim+":8080/jogadas", {
+      method: "POST",
+      body: JSON.stringify(bemenet),
+      headers: {"Content-type": "application/json; charset=UTF-8"}
+    }
+  
+  )
+  .then(x => x.text())
+  .then(y => alert(y));
+
+  }
+
 
   componentDidMount(){
     return fetch('http://'+ipcim+':8080/felhasznalok')
@@ -124,13 +142,13 @@ export default class Adattorles extends React.Component {
          <Text style={{fontStyle:"italic",fontFamily:'italic',fontSize:15,padding:3,color:"white",height:50}}>{item.email} </Text>
          <TouchableOpacity
         style={styles.kekgomb2}
-        onPress={async ()=>this.torles(item.id)}
+        onPress={async ()=>this.jogadas(item.id)}
       >
         <Text style={{color:"white",fontWeight:"bold",fontSize:15}}  >Adminjog adása</Text>
       </TouchableOpacity>
          <TouchableOpacity
         style={styles.kekgomb}
-        onPress={async ()=>this.torles(item.id)}
+        onPress={async ()=>this.jogadas(item.id)}
       >
         <Text style={{color:"white",fontWeight:"bold",fontSize:15}}  >Törlés</Text>
       </TouchableOpacity>
